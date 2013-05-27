@@ -1,0 +1,31 @@
+{%extends 'layout/reporte.html.twig' %}
+{% block titulo titulo_reporte|title %}
+{%block contenido %}
+    <div class="page-header">
+    {% include 'reporte/encabezado.html.twig' %}
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th> Tipo TV </th>
+                <th> Canal </th>
+                <th> Indicador </th>
+                <th> AMR</th>
+                <th> AMR %</th>
+                <th> SHR %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for valor in datos %}
+                <tr>
+                    <td>{{ valor.tipo_tv }}</td>
+                    <td>{{ valor.canal }}</td>
+                    <td>{{ valor.indicador}}</td>
+                    <td>{{ valor.miles|number_format(0,',','.') }}</td>
+                    <td>{{ valor.porcentaje_amr|number_format(2,',','.') }}</td>
+                    <td>{{ valor.porcentaje_shr|number_format(2,',','.')  }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

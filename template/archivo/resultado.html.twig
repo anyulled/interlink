@@ -1,0 +1,115 @@
+{% extends "layout/base.html.twig"%}
+{%block titulo 'Resultado de Carga' %}
+{%block contenido %}
+<h1>Resultado de carga de archivo</h1>
+<div class="alert alert-info">
+    <p>{{ result_db }}</p>
+</div>
+<a href="?accion=cargar" class="btn btn-danger">Atrás</a>
+{%if resultado is defined %}
+    {% if proceso == "1" %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Canal</th>
+            <th>Fecha</th>
+            <th>Programa</th>
+            <th>Hora inicio</th>
+            <th>Hora fin</th>
+            <th>Indicador</th>
+            <th>SHR %</th>
+            <th>AMR</th>
+            <th>AMR %</th>
+            <th>RCH</th>
+            <th>ATS</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for linea in resultado %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ linea[0]}}</td>
+                <td>{{ linea[1]}}</td>
+                <td>{{ linea[2]}}</td>
+                <td>{{ linea[4]}}</td>
+                <td>{{ linea[5]}}</td>
+                <td>{{ linea[8]|convert_encoding('UTF-8', 'iso-8859-1')}}</td>
+                <td>{{ linea[9]}}</td>
+                <td>{{ linea[10]}}</td>
+                <td>{{ linea[11]}}</td>
+                <td>{{ linea[12]}}</td>
+                <td>{{ linea[13]}}</td>
+            </tr>
+             {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {%if proceso == "2" %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Canal</th>
+                <th>Indicador</th>
+                <th>Fecha</th>
+                <th>SHR %</th>
+                <th>AMR</th>
+                <th>AMR %</th>
+                <th>RCH</th>
+                <th>ATS</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for linea in resultado %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{ linea[0]}}</td>
+                    <td>{{ linea[1]|convert_encoding('UTF-8', 'iso-8859-1')}}</td>
+                    <td>{{ linea[3]}}</td>
+                    <td>{{ linea[4]}}</td>
+                    <td>{{ linea[5]}}</td>
+                    <td>{{ linea[6]}}</td>
+                    <td>{{ linea[7]}}</td>
+                    <td>{{ linea[8]}}</td>
+        {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+    {% if proceso == '3' %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Fecha</th>
+                    <th>Canal</th>
+                    <th>Indicador</th>
+                    <th>Hora inicio - Hora fin</th>
+                    <th>SHR %</th>
+                    <th>AMR</th>
+                    <th>AMR %</th>
+                    <th>RCH</th>
+                    <th>ATS</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for linea in resultado %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{ linea[1]}}</td>
+                        <td>{{ linea[2]}}</td>
+                        <td>{{ linea[3]|convert_encoding('UTF-8', 'iso-8859-1')}}</td>
+                        <td>{{ linea[4]}}</td>
+                        <td>{{ linea[5]}}</td>
+                        <td>{{ linea[6]}}</td>
+                        <td>{{ linea[7]}}</td>
+                        <td>{{ linea[8]}}</td>
+                        <td>{{ linea[9]}}</td>
+        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+    {% endif %}
+{% endif %}
+{% endblock %}

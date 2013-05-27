@@ -1,0 +1,19 @@
+{% extends "layout/base.html.twig"%}
+{%block titulo 'Inicio' %}
+{%block contenido %}
+<div class="row">
+    <div class="span13">
+        {%if usuario.LOGIN is defined %}
+            <div class="well">
+                <h1>Hola, {{usuario.LOGIN}}</h1>
+            </div>
+        {% else %}
+            <div class="well-large">
+                <div class="alert alert-info">
+                    <p>Por favor inicie sesion para ingresar al sistema.</p>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

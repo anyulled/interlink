@@ -1,0 +1,28 @@
+<h1>Reporte
+    <small>{{ titulo_reporte|title }}</small>
+</h1>
+<dl class="dl-horizontal">
+        {% if periodo_desde is defined and periodo_hasta is defined  %}
+        <dt>Periodo:</dt>
+        <dd>{{periodo_desde}} a {{periodo_hasta}}</dd>
+        {% endif %}
+        {% if canal is defined %}
+        <dt>Canal:</dt>
+        <dd>{{ canal }}</dd>
+        {% endif %}
+        {% if perfil is defined %}
+        <dt>Perfil:</dt>
+        <dd>{{ perfil }}</dd>
+        {% endif %}
+        {% if indicador is defined %}
+        <dt>Indicador:</dt>
+        <dd>{{ indicador }}</dd>
+        {% endif %}
+        {% if senial is defined %}
+        <dt>Se&ntilde;al:</dt>
+        <dd>{{senial}}</dd>
+        {% endif %}
+    </dl>
+            {% if constant("DEBUG") %}
+            {{ dump(consulta) }}
+            {% endif %}

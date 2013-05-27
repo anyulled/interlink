@@ -1,0 +1,68 @@
+{% extends "layout/base.html.twig"%}
+{% block head %}
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-1.7.1.min.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/bootstrap.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/formulario.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/jquery.validate.min.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/localization/messages_es.js" }}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#myModal").modal("show");
+    $("#myModal").modal("hide");
+    $(".close, #cerrar").click(function(){
+        $("#myModal").modal("hide");
+    });
+    $("#archivo").validate({
+        submitHandler: function(form) {
+            $("#myModal").modal("show");
+            form.submit();
+ }});
+    
+});
+</script>
+{% endblock %}
+{%block titulo 'Inicio' %}
+{%block contenido %}
+<div class="modal" id="myModal">
+    <div class="modal-header">
+        <a class="close">&times;</a>
+        <h3>Cargando archivo</h3>
+    </div>
+        <div class="modal-body">
+            <p>Esta operación puede tardar varios segundos, por favor espere...</p>
+            <div class="progress progress-striped active">
+                <div class="bar" style="width: 100%"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="cerrar" href="#" class="btn">Cerrar</a>
+        </div>
+</div>
+<div class="well-small">
+            <form id="archivo" class="form form-horizontal" method="post" name="archivo" enctype="multipart/form-data">
+                <legend>Cargar Archivo</legend>
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label">Archivo</label>
+                        <div class="controls">
+                            <input class="required" type="file" name="archivo"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Tipo de archivo</label>
+                        <div class="controls">
+                            <select name="tipo_archivo" class="required">
+                                <option value="">Seleccione</option>
+                            {% for proceso in procesos %}
+                                <option value="{{ proceso.ID }}">{{proceso.NOMBRE|capitalize }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <input type="submit" name="accion" value="Cargar" class="btn btn-primary"/>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+{% endblock %}

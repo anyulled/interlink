@@ -1,0 +1,24 @@
+{%extends "layout/base.html.twig"%}
+{% block encabezado %}
+<h1>Listado de reportes</h1>
+{% endblock %}
+{% block contenido %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>nombre</th>
+            <th>accion</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>uno</td>
+            <td><a href="?accion=configurar&id=1" class="btn btn-info">configurar</a></td>
+        </tr>
+        <tr>
+            <td>dos</td>
+            <td><a href="" class="btn btn-info">configurar</a></td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

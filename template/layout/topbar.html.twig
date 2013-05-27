@@ -1,0 +1,24 @@
+<div class="navbar-inner">
+    <div class="container-fluid">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="#">{{ constant('TITULO')}}</a>
+        <div class="nav-collapse collapse">
+            {% if usuario is defined %}
+            <p class="navbar-text pull-right">
+                Conectado/a como <a href="{{ constant('URL_SISTEMA')}}usuario" class="navbar-link">{{ usuario.LOGIN }}</a>
+            </p>
+            {%else%}
+            <p class="navbar-text pull-right">
+                <a href="login.php" class="navbar-link">Iniciar Sesi&oacute;n</a>
+            </p>
+            {%endif%}
+            <ul class="nav">
+                <li class="active"><a href="{{constant("URL_SISTEMA")}}">Inicio</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>

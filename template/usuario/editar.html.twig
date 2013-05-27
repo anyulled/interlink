@@ -1,0 +1,70 @@
+{% extends "layout/base.html.twig"%}
+{% block head %}
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-1.7.1.min.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/formulario.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/jquery.validate.min.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/localization/messages_es.js" }}"></script>
+<script type="text/javascript">
+   $("#usuario").validate({});
+        {% if get.accion == "crear" %}
+             $("#repetir").rules('add', {
+                equalTo:"#password",
+                messsages:{
+                    equalTo:"La contraseña no coincide"
+                }
+            });
+        {% endif %}
+</script>
+{% endblock %}
+{%block titulo get.accion|title ~ ' Usuario' %}
+
+{%block contenido%}
+<div class="well">
+    <form id="usuario" name="usuario" class="form-horizontal" method="post">
+        <input type="hidden" value="{{dato.ID}}" name="id"/>
+        <legend>Datos de Usuario</legend>
+        <div class="control-group">
+            <label class="control-label">Login</label>
+            <div class="controls">
+                <input class="required" type="text" name="login" value="{{ dato.LOGIN }}" {{ modolectura ? "disabled='true'" : " " }}/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Password</label>
+            <div class="controls">
+                <input id="password" type="password" class="required" name="password" value="{{dato.PASSWORD}}" {{ modolectura ? "disabled='true'" : " " }}/>
+            </div>
+        </div>
+        {% if get.accion =="crear" %}
+        <div class="control-group">
+            <label class="control-label">Repita Password</label>
+            <div class="controls">
+                <input id="repetir" type="password" name="repetir" value="" {{ modolectura ? "disabled='true'" : " " }}/>
+            </div>
+        </div>
+            {% endif %}
+                <div class="control-group">
+            <label class="control-label">Rol</label>
+            <div class="controls">
+                <select class="required" name="rol_id" {{ modolectura ? "disabled='true'" : " " }}>
+                {%for rol in roles %}
+                        <option value="{{rol.ID}}" {{ rol.ID == dato.ROL_ID ? " selected='selected' ":""}}>{{ rol.NOMBRE|capitalize }}</option>
+                {% endfor %}
+                    </select>
+                </div>
+                        </div>
+                <div class="form-actions">
+            {% if get.accion =="editar" %}
+                    <input type="submit" name="accion" value="Editar" class="btn btn-primary"/>
+            {% endif %}
+            {% if get.accion =="crear" %}
+                    <input type="submit" name="accion" value="Crear" class="btn btn-primary"/>
+            {% endif %}
+            {% if get.accion != "crear" %}
+                <input type="submit" class="btn btn-danger" name="accion" value="Eliminar"/>
+            {% endif %}
+                   <a href="?accion=listar" class="btn">Atras</a>
+                </div>
+            </form>
+        </div>
+{%endblock%}

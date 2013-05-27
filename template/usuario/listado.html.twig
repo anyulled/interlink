@@ -1,0 +1,40 @@
+{% extends "layout/base.html.twig"%}
+{%block titulo 'Listado de Usuarios' %}
+{%block contenido%}
+<div class="well-small">
+    <h3>Listado de Usuarios</h3>
+    <table class="table table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for usuario in registros %}
+                <tr>
+                    <td>{{ usuario.ID }}</td>
+                    <td>{{ usuario.LOGIN }}</td>
+                    <td>{{ usuario.ROL|capitalize }}</td>
+                    <td>
+                        <a href="?accion=ver&id={{ usuario.ID }}" class="btn">Ver</a>
+                        <a href="?accion=editar&id={{ usuario.ID }}" class="btn btn-info">Editar</a>
+                    </td>
+                </tr>
+        {% else %}
+                <tr>
+                    <td colspan="4"><p>No se encontraron registros.</p></td>
+                </tr>
+        {% endfor %}
+            </tbody>
+    </table>
+<div>
+    {{ paginacion|raw }}
+</div>
+        <div class="well">
+            <a href="{{constant('URL_SISTEMA')}}usuario?accion=crear" class="btn btn-primary">Crear nuevo usuario</a>
+        </div>
+</div>
+{% endblock %}

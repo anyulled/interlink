@@ -1,0 +1,37 @@
+{%extends 'layout/reporte.html.twig' %}
+{% block titulo titulo_reporte|title %}
+{%block contenido %}
+    <div class="page-header">
+    {% include 'reporte/encabezado.html.twig' %}
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th> id </th>
+                <th> Canal </th>
+                <th> Programa </th>
+                <th> Genero</th>
+                <th> Fecha</th>
+                <th> Hora inicio</th>
+                <th> Miles</th>
+                <th> AMR %</th>
+                <th> SHR %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for valor in datos %}
+            <tr>
+                <td>{{ valor.id }}</td>
+                <td>{{ valor.canal }}</td>
+                <td>{{ valor.programa}}</td>
+                <td>{{ valor.genero}}</td>
+                <td>{{ valor.fecha|date("d/m/Y")}}</td>
+                <td>{{ valor.hora_inicio}}</td>
+                <td>{{ valor.miles|number_format(0,',','.') }}</td>
+                <td>{{ valor.porcentaje_amr|number_format(2,',','.') }}</td>
+                <td>{{ valor.porcentaje_shr|number_format(2,',','.')  }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

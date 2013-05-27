@@ -1,0 +1,145 @@
+{% extends "layout/base.html.twig"%}
+    {% block head %}
+<link rel="stylesheet" href="{{ constant("URL_SISTEMA")}}css/jquery-ui-1.8.16.custom.css"/>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-1.7.1.min.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-ui-1.8.16.custom.min.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery.ui.datepicker-es.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/bootstrap.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/formulario.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/jquery.validate.min.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/localization/messages_es.js" }}"></script>
+<script type="text/javascript">
+    mensaje = "Confirma que los datos son correctos?";
+$(document).ready(function(){
+    $(".fecha").datepicker({
+        changeMonth:true,
+        changeYear:true
+    });
+    $("#myModal").modal("show");
+    $("#myModal").modal("hide");
+    $(".close, #cerrar").click(function(){
+        $("#myModal").modal("hide");
+    });
+    $("#reporte").validate({
+        submitHandler: function(form) {
+            $("#myModal").modal("show");
+            form.submit();
+ }});
+    
+});
+</script>
+{% endblock %}
+{%block titulo 'Reporte' %}
+    {%block encabezado %}
+<div class="page-header">
+    <h2>{{ titulo_reporte|capitalize }}</h2>
+</div>
+{%endblock %}
+{%block contenido %}
+    <div class="modal" id="myModal">
+        <div class="modal-header">
+            <a class="close">&times;</a>
+            <h3>Generando reporte</h3>
+        </div>
+            <div class="modal-body">
+                <p>Esta operación puede tardar varios segundos, por favor espere...</p>
+                <div class="progress progress-striped active">
+                    <div class="bar" style="width: 100%"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="cerrar" href="#" class="btn">Cerrar</a>
+            </div>
+    </div>
+    <div class="well-small">
+    {% if mensaje is not defined %}
+        <form class="form form-horizontal" method="post" name="reporte" id="reporte">
+        <fieldset>
+            <legend>Datos del Reporte</legend>
+            {% for parametro in parametros_reporte %}
+                {% if parametro.nombre == 'indicador' %}
+                <div class="control-group">
+                    <label class="control-label" for="indicador">Indicador</label>
+                <div class="controls">
+                    <select name="indicador[]" class="required" {{ parametro.multiple?" multiple ":"" }}>
+                        {% for indicador in indicadores %}
+                        <option value="{{ indicador.valor }}">{{ indicador.indicador }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+                {% endif %}
+                {% if parametro.nombre == 'perfil' %}
+                <div class="control-group">
+                    <label class="control-label" for="perfil">Perfil</label>
+                    <div class="controls">
+                        <select name="perfil[]" class="required" {{ parametro.multiple?" multiple ":"" }}>
+                            <!--<option value="" selected="true">Todos</option>-->
+                            {% for perfil in perfiles %}
+                            <option value="{{ perfil.ID }}">{{ perfil.NOMBRE_COMERCIAL|title }}</option>
+                            {% endfor %}
+                        </select>
+                            {% if(parametro.multiple) %}
+                            <div class="help-block">
+                                <span>Mantenga pulsada la tecla <strong>ctrl</strong> para seleccionar varios elementos</span></div>
+                            {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% if parametro.nombre == 'periodo' %}
+                <div class="control-group">
+                    <label class="control-label" for="inicador">Periodo</label>
+                    <div class="controls">
+                        <input type="text" id="periodo_desde" name="periodo_desde" class="input-small fecha" value="{{ now|date('d/m/Y')}}"/>
+                        <span class="help-inline">a</span>
+                        <input type="text" id="periodo_hasta" name="periodo_hasta" class="input-small fecha" value="{{ now|date('d/m/Y')}}"/>
+                    </div>
+                </div>
+                {% endif %}
+                {% if parametro.nombre == "señal"%}
+                <div class="control-group">
+                    <label class="control-label" for="senial">Tipo de Televisora</label>
+                    <div class="controls">
+                        <select name="senial[]" class="required">
+                            <!--<option value="" selected="true">Todos</option>-->
+                            {% for senial in seniales %}
+                                <option value="{{ senial.ID}}">{{ senial.NOMBRE}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% endif %}
+                {%if parametro.nombre == "canal"%}
+                <div class="control-group">
+                    <label class="control-label" for="canal">Canal</label>
+                    <div class="controls">
+                        <select name="canal[]" class="required" {{ parametro.multiple?" multiple ":"" }}>
+                            <!--<option value="" selected="true">Todos</option>-->
+                            {% for canal in canales %}
+                            <option value="{{ canal.ID }}">{{ canal.NOMBRE|title }}</option>
+                            {% endfor %}
+                        </select>
+                        {% if(parametro.multiple) %}
+                        <div class="help-block">
+                            <span>Mantenga pulsada la tecla <strong>ctrl</strong> para seleccionar varios elementos</span></div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            <div class="form-actions">
+                <button type="submit" name="accion" value="Ver Reporte" class="btn btn-primary">Ver Reporte</button>
+                <a href="{{ constant("URL_SISTEMA")}}usuario" class="btn btn-danger">Atrás</a>
+            </div>
+        </fieldset>
+    </form>
+    {% else %}
+    {%if consulta|length>0 %}
+    <pre>
+        {{ consulta }}
+    </pre>
+    {% endif %}
+        <a href="{{ constant('URL_SISTEMA')~"reporte/?accion=listar" }}" class="btn btn-danger">Atr&aacute;s</a>
+    {% endif %}
+    </div>
+{% endblock %}

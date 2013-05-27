@@ -1,0 +1,33 @@
+{% extends "layout/base.html.twig" %}
+{% block encabezado%}
+<div class="page-header">
+    <h3>Listado de lotes</h3>
+</div>
+{%endblock%}
+{% block contenido%}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Fecha</th>
+        <th>Proceso</th>
+        <th>Usuario</th>
+        <th>Descripción</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for lote in lotes %}
+        <tr>
+            <td>{{ lote.ID}}</td>
+            <td>{{ lote.FECHA|date("d/m/Y - h:m a") }}</td>
+            <td>{{ lote.PROCESO|capitalize }}</td>
+            <td>{{ lote.USUARIO|capitalize }}</td>
+            <td style="max-width: 25%;">{{ lote.DESCRIPCION|capitalize }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="well-small">
+    {{paginacion|raw}}
+</div>
+{% endblock %}
